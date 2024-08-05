@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct HomeView: View {
+struct NewsFeed: View {
     @ObservedObject var viewModel = HomeViewModel()
     @State private var filter = ""
     
@@ -122,5 +122,5 @@ struct HomeView: View {
 }
 
 #Preview {
-    HomeView()
+    NewsFeed()
 }

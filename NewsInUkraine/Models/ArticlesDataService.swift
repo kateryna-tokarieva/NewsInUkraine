@@ -2,7 +2,7 @@
 //  ArticlesNetworkManager.swift
 //  NewsInUkraine
 //
-//  Created by Екатерина Токарева on 05.08.2024.
+//  Created by Катерина Токарева on 05.08.2024.
 //
 
 import Foundation
@@ -13,8 +13,22 @@ struct ArticlesDataService {
     
     private init() {}
     
-    func fetchArticles(withFilter: String?) -> AnyPublisher<ArticlesData, Error> {
-        guard let url = URL(string: "https://newsapi.org/v2/top-headlines?country=ua&apiKey=\(API.key)") else {
+    func fetchArticles(withFilter filter: String?) -> AnyPublisher<ArticlesData, Error> {
+        let baseURL = filter == nil || filter!.isEmpty ? "https://newsapi.org/v2/top-headlines" : "https://newsapi.org/v2/everything"
+        
+        var components = URLComponents(string: baseURL)!
+        
+        components.queryItems = [
+            URLQueryItem(name: "apiKey", value: API.key)
+        ]
+        
+        if filter == nil || filter!.isEmpty {
+            components.queryItems?.append(URLQueryItem(name: "country", value: "ua"))
+        } else {
+            components.queryItems?.append(URLQueryItem(name: "q", value: filter))
+        }
+        
+        guard let url = components.url else {
             return Fail(error: URLError(.badURL))
                 .eraseToAnyPublisher()
         }
