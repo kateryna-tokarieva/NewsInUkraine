@@ -13,7 +13,7 @@ struct NewsInUkraineApp: App {
 
     var body: some Scene {
         WindowGroup {
-            NewsFeed()
+            NewsFeed(context: persistenceController.container.viewContext)
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
