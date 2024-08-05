@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		10088A882C61245C000C2298 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10088A872C61245C000C2298 /* HomeViewModel.swift */; };
+		10088A8A2C6126D4000C2298 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10088A892C6126D4000C2298 /* API.swift */; };
+		10088A8C2C6128C0000C2298 /* ArticlesData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10088A8B2C6128C0000C2298 /* ArticlesData.swift */; };
+		10088A8E2C6129E2000C2298 /* ArticlesDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10088A8D2C6129E2000C2298 /* ArticlesDataService.swift */; };
+		10088A932C61433D000C2298 /* ArticleDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10088A922C61433D000C2298 /* ArticleDetailView.swift */; };
 		10CB709F2C611F72006422CA /* NewsInUkraineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CB709E2C611F72006422CA /* NewsInUkraineApp.swift */; };
 		10CB70A12C611F72006422CA /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CB70A02C611F72006422CA /* HomeView.swift */; };
 		10CB70A32C611F74006422CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10CB70A22C611F74006422CA /* Assets.xcassets */; };
@@ -16,6 +21,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		10088A872C61245C000C2298 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		10088A892C6126D4000C2298 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		10088A8B2C6128C0000C2298 /* ArticlesData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesData.swift; sourceTree = "<group>"; };
+		10088A8D2C6129E2000C2298 /* ArticlesDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesDataService.swift; sourceTree = "<group>"; };
+		10088A912C614298000C2298 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		10088A922C61433D000C2298 /* ArticleDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleDetailView.swift; sourceTree = "<group>"; };
 		10CB709B2C611F72006422CA /* NewsInUkraine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewsInUkraine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		10CB709E2C611F72006422CA /* NewsInUkraineApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsInUkraineApp.swift; sourceTree = "<group>"; };
 		10CB70A02C611F72006422CA /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -36,6 +47,42 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		10088A832C612417000C2298 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				10CB70A02C611F72006422CA /* HomeView.swift */,
+				10088A922C61433D000C2298 /* ArticleDetailView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		10088A842C61241F000C2298 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				10088A872C61245C000C2298 /* HomeViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		10088A852C61242D000C2298 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				10088A8B2C6128C0000C2298 /* ArticlesData.swift */,
+				10088A8D2C6129E2000C2298 /* ArticlesDataService.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		10088A862C61243B000C2298 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				10CB709E2C611F72006422CA /* NewsInUkraineApp.swift */,
+				10CB70A72C611F74006422CA /* Persistence.swift */,
+				10088A892C6126D4000C2298 /* API.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
 		10CB70922C611F72006422CA = {
 			isa = PBXGroup;
 			children = (
@@ -55,10 +102,12 @@
 		10CB709D2C611F72006422CA /* NewsInUkraine */ = {
 			isa = PBXGroup;
 			children = (
-				10CB709E2C611F72006422CA /* NewsInUkraineApp.swift */,
-				10CB70A02C611F72006422CA /* HomeView.swift */,
+				10088A912C614298000C2298 /* Info.plist */,
+				10088A862C61243B000C2298 /* App */,
+				10088A852C61242D000C2298 /* Models */,
+				10088A832C612417000C2298 /* Views */,
+				10088A842C61241F000C2298 /* ViewModels */,
 				10CB70A22C611F74006422CA /* Assets.xcassets */,
-				10CB70A72C611F74006422CA /* Persistence.swift */,
 				10CB70A92C611F74006422CA /* NewsInUkraine.xcdatamodeld */,
 				10CB70A42C611F74006422CA /* Preview Content */,
 			);
@@ -143,9 +192,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				10088A8C2C6128C0000C2298 /* ArticlesData.swift in Sources */,
 				10CB70A82C611F74006422CA /* Persistence.swift in Sources */,
 				10CB70AB2C611F74006422CA /* NewsInUkraine.xcdatamodeld in Sources */,
+				10088A8E2C6129E2000C2298 /* ArticlesDataService.swift in Sources */,
 				10CB70A12C611F72006422CA /* HomeView.swift in Sources */,
+				10088A882C61245C000C2298 /* HomeViewModel.swift in Sources */,
+				10088A932C61433D000C2298 /* ArticleDetailView.swift in Sources */,
+				10088A8A2C6126D4000C2298 /* API.swift in Sources */,
 				10CB709F2C611F72006422CA /* NewsInUkraineApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -283,6 +337,7 @@
 				DEVELOPMENT_TEAM = RYXUJKX2SJ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NewsInUkraine/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -312,6 +367,7 @@
 				DEVELOPMENT_TEAM = RYXUJKX2SJ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NewsInUkraine/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
