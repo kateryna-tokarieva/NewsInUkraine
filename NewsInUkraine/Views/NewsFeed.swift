@@ -2,7 +2,7 @@
 //  ContentView.swift
 //  NewsInUkraine
 //
-//  Created by Екатерина Токарева on 05.08.2024.
+//  Created by Катерина Токарева on 05.08.2024.
 //
 
 import SwiftUI

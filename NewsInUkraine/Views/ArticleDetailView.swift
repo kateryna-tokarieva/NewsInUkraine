@@ -2,49 +2,63 @@
 //  ArticleDetailView.swift
 //  NewsInUkraine
 //
-//  Created by Екатерина Токарева on 05.08.2024.
+//  Created by Катерина Токарева on 05.08.2024.
 //
 
 import SwiftUI
+import WebKit
+
+struct WebView: UIViewRepresentable {
+    let url: URL
+
+    func makeUIView(context: Context) -> WKWebView {
+        let webView = WKWebView()
+        webView.navigationDelegate = context.coordinator
+        return webView
+    }
+
+    func updateUIView(_ webView: WKWebView, context: Context) {
+        let request = URLRequest(url: url)
+        webView.load(request)
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+
+    class Coordinator: NSObject, WKNavigationDelegate {
+        var parent: WebView
+
+        init(_ parent: WebView) {
+            self.parent = parent
+        }
+
+        func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+            print("WebView finished loading")
+        }
+
+        func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+            print("Navigation error: \(error.localizedDescription)")
+        }
+
+        func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+            print("Provisional navigation error: \(error.localizedDescription)")
+        }
+    }
+}
 
 struct ArticleDetailView: View {
     let article: Article
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                Text(article.title)
-                    .font(.largeTitle)
-                    .padding(.top)
-                if let imageUrl = article.urlToImage, let url = URL(string: imageUrl) {
-                    AsyncImage(url: url) { phase in
-                        if let image = phase.image {
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                        } else if phase.error != nil {
-                            Text("Failed to load image")
-                                .foregroundColor(.red)
-                        } else {
-                            ProgressView()
-                        }
-                    }
-                    .frame(height: 200)
-                }
-                if let description = article.description {
-                    Text(description)
-                        .font(.body)
-                        .padding(.top)
-                }
-                if let author = article.author {
-                    Text("Author: \(author)")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                }
-                Spacer()
-            }
-            .padding()
+        if let url = URL(string: article.url) {
+            WebView(url: url)
+                .edgesIgnoringSafeArea(.all)
+        } else {
+            Text("Неможливо завантажити контент.")
+                .foregroundColor(.red)
+                .multilineTextAlignment(.center)
+                .padding()
         }
-        .navigationTitle(article.title)
     }
 }
