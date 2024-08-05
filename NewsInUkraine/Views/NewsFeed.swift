@@ -6,10 +6,17 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct NewsFeed: View {
-    @ObservedObject var viewModel = HomeViewModel()
+    @Environment(\.managedObjectContext) private var viewContext
+    @StateObject private var viewModel: NewsFeedViewModel
     @State private var filter = ""
+    @State private var showingSavedArticlesSheet = false
+    
+    init(context: NSManagedObjectContext) {
+        _viewModel = StateObject(wrappedValue: NewsFeedViewModel(context: context))
+    }
     
     var body: some View {
         NavigationView {
@@ -26,12 +33,23 @@ struct NewsFeed: View {
     }
     
     var header: some View {
-        TextField("Пошук", text: $filter, onCommit: {
-            viewModel.filter = filter
-            viewModel.fetchArticles()
-        })
-        .padding()
-        .textFieldStyle(RoundedBorderTextFieldStyle())
+        HStack {
+            TextField("Пошук", text: $filter, onCommit: {
+                viewModel.filter = filter
+                viewModel.fetchArticles()
+            })
+            .padding()
+            .textFieldStyle(RoundedBorderTextFieldStyle())
+            Button(action: {
+                showingSavedArticlesSheet.toggle()
+            }, label: {
+                Image(systemName: "bookmark.fill")
+            })
+            .padding()
+            .sheet(isPresented: $showingSavedArticlesSheet, content: {
+                SavedArticlesView(viewModel: SavedArticleViewModel())
+            })
+        }
     }
     
     var content: some View {
@@ -46,56 +64,8 @@ struct NewsFeed: View {
     
     var articles: some View {
         List(viewModel.articles, id: \.self) { article in
-            NavigationLink(destination: ArticleDetailView(article: article)) {
-                VStack(alignment: .leading, spacing: 8) {
-                    if let imageUrl = article.urlToImage, let url = URL(string: imageUrl) {
-                        AsyncImage(url: url) { phase in
-                            if let image = phase.image {
-                                image
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                            } else if phase.error != nil {
-                                Text("Не вдалося завантажити зображення")
-                                    .foregroundColor(.red)
-                            } else {
-                                ProgressView()
-                            }
-                        }
-                        .frame(height: 200)
-                    }
-                    HStack(alignment: .top) {
-                        VStack(alignment: .leading) {
-                            Text(article.title)
-                                .padding()
-                                .font(.headline)
-                            if let sourceName = article.source.name {
-                                Text(sourceName)
-                                    .padding(.leading)
-                                    .padding(.trailing)
-                                    .padding(.bottom)
-                                    .font(.subheadline)
-                            }
-                            if let description = article.description, !description.isEmpty {
-                                Text(description)
-                                    .padding(.leading)
-                                    .padding(.trailing)
-                                    .padding(.bottom)
-                                    .font(.body)
-                                    .lineLimit(2)
-                            }
-                            HStack {
-                                Spacer()
-                                Text(formatDate(article.publishedAt))
-                                    .font(.footnote)
-                            }
-                            .padding(.leading)
-                            .padding(.trailing)
-                            .padding(.bottom)
-                        }
-                        
-                    }
-                    .padding(.vertical, 8)
-                }
+            ArticleRowView(article: article) {
+                viewModel.saveArticle(article: article)
             }
         }
     }
@@ -104,23 +74,9 @@ struct NewsFeed: View {
         VStack {
             ProgressView()
             Text("Завантаження новин...")
-                .foregroundColor(.gray)
+                .foregroundColor(.secondary)
         }
         .padding()
     }
-    
-    func formatDate(_ dateString: String) -> String {
-        let dateFormatter = ISO8601DateFormatter()
-        if let date = dateFormatter.date(from: dateString) {
-            let formatter = DateFormatter()
-            formatter.dateStyle = .short
-            formatter.timeStyle = .short
-            return formatter.string(from: date)
-        }
-        return dateString
-    }
 }
 
-#Preview {
-    NewsFeed()
-}

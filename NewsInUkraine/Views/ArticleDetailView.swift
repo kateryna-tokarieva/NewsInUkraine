@@ -49,16 +49,32 @@ struct WebView: UIViewRepresentable {
 
 struct ArticleDetailView: View {
     let article: Article
-
+    @Environment(\.presentationMode) var presentationMode
+    
     var body: some View {
-        if let url = URL(string: article.url) {
-            WebView(url: url)
-                .edgesIgnoringSafeArea(.all)
-        } else {
-            Text("Неможливо завантажити контент.")
-                .foregroundColor(.red)
-                .multilineTextAlignment(.center)
-                .padding()
+        Group {
+            if let url = URL(string: article.url) {
+                WebView(url: url)
+                    .edgesIgnoringSafeArea(.all)
+            } else {
+                Text("Неможливо завантажити контент.")
+                    .foregroundColor(.red)
+                    .multilineTextAlignment(.center)
+                    .padding()
+            }
+        }
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading: backButton)
+    }
+    
+    private var backButton: some View {
+        Button(action: {
+            self.presentationMode.wrappedValue.dismiss()
+        }) {
+            HStack {
+                Image(systemName: "chevron.left")
+                Text("Назад")
+            }
         }
     }
 }
