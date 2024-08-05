@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		10CB709F2C611F72006422CA /* NewsInUkraineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CB709E2C611F72006422CA /* NewsInUkraineApp.swift */; };
-		10CB70A12C611F72006422CA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CB70A02C611F72006422CA /* ContentView.swift */; };
+		10CB70A12C611F72006422CA /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CB70A02C611F72006422CA /* HomeView.swift */; };
 		10CB70A32C611F74006422CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10CB70A22C611F74006422CA /* Assets.xcassets */; };
 		10CB70A62C611F74006422CA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10CB70A52C611F74006422CA /* Preview Assets.xcassets */; };
 		10CB70A82C611F74006422CA /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CB70A72C611F74006422CA /* Persistence.swift */; };
@@ -18,7 +18,7 @@
 /* Begin PBXFileReference section */
 		10CB709B2C611F72006422CA /* NewsInUkraine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewsInUkraine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		10CB709E2C611F72006422CA /* NewsInUkraineApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsInUkraineApp.swift; sourceTree = "<group>"; };
-		10CB70A02C611F72006422CA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		10CB70A02C611F72006422CA /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		10CB70A22C611F74006422CA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		10CB70A52C611F74006422CA /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		10CB70A72C611F74006422CA /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
@@ -56,7 +56,7 @@
 			isa = PBXGroup;
 			children = (
 				10CB709E2C611F72006422CA /* NewsInUkraineApp.swift */,
-				10CB70A02C611F72006422CA /* ContentView.swift */,
+				10CB70A02C611F72006422CA /* HomeView.swift */,
 				10CB70A22C611F74006422CA /* Assets.xcassets */,
 				10CB70A72C611F74006422CA /* Persistence.swift */,
 				10CB70A92C611F74006422CA /* NewsInUkraine.xcdatamodeld */,
@@ -145,7 +145,7 @@
 			files = (
 				10CB70A82C611F74006422CA /* Persistence.swift in Sources */,
 				10CB70AB2C611F74006422CA /* NewsInUkraine.xcdatamodeld in Sources */,
-				10CB70A12C611F72006422CA /* ContentView.swift in Sources */,
+				10CB70A12C611F72006422CA /* HomeView.swift in Sources */,
 				10CB709F2C611F72006422CA /* NewsInUkraineApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
