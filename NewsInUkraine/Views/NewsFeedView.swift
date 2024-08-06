@@ -8,7 +8,7 @@
 import SwiftUI
 import CoreData
 
-struct NewsFeed: View {
+struct NewsFeedView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @StateObject private var viewModel: NewsFeedViewModel
     @State private var filter = ""
@@ -16,6 +16,7 @@ struct NewsFeed: View {
     
     init(context: NSManagedObjectContext) {
         _viewModel = StateObject(wrappedValue: NewsFeedViewModel(context: context))
+        
     }
     
     var body: some View {
@@ -25,9 +26,6 @@ struct NewsFeed: View {
                 Spacer()
                 content
                 Spacer()
-            }
-            .onAppear {
-                viewModel.fetchArticles()
             }
         }
     }
@@ -46,9 +44,12 @@ struct NewsFeed: View {
                 Image(systemName: "bookmark.fill")
             })
             .padding()
-            .sheet(isPresented: $showingSavedArticlesSheet, content: {
-                SavedArticlesView(viewModel: SavedArticleViewModel())
-            })
+            .sheet(isPresented: $showingSavedArticlesSheet, onDismiss: {
+                viewModel.fetchArticles()
+            }) {
+                SavedArticlesView(viewModel: SavedArticleViewModel(context: viewContext))
+                    .environment(\.managedObjectContext, viewContext)
+            }
         }
     }
     
@@ -64,9 +65,7 @@ struct NewsFeed: View {
     
     var articles: some View {
         List(viewModel.articles, id: \.self) { article in
-            ArticleRowView(article: article) {
-                viewModel.saveArticle(article: article)
-            }
+            ArticleRowView(viewModel: ArticleRowViewModel(article: article, context: viewContext))
         }
     }
     

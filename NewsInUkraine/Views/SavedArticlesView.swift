@@ -2,33 +2,38 @@
 //  SavedArticlesView.swift
 //  NewsInUkraine
 //
-//  Created by Екатерина Токарева on 05.08.2024.
+//  Created by Катерина Токарева on 05.08.2024.
 //
 
 import SwiftUI
+import CoreData
 
 struct SavedArticlesView: View {
+    @Environment(\.managedObjectContext) private var viewContext
     @StateObject var viewModel: SavedArticleViewModel
-    
-    var body: some View {
-        Group {
-            if viewModel.articles.isEmpty {
-                emptyState
-            } else {
-                articles
-            }
-        }
+
+    init(viewModel: SavedArticleViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
     }
-    
-    var articles: some View {
-        List(viewModel.articles, id: \.self) { article in
-            NavigationLink(destination: ArticleDetailView(article: article)) {
-                ArticleRowView(article: article) {
+
+    var body: some View {
+        NavigationView {
+            Group {
+                if viewModel.articles.isEmpty {
+                    emptyState
+                } else {
+                    articleList
                 }
             }
         }
     }
-    
+
+    var articleList: some View {
+        List(viewModel.articles, id: \.url) { article in
+            ArticleRowView(viewModel: ArticleRowViewModel(article: article, context: viewContext))
+        }
+    }
+
     var emptyState: some View {
         VStack {
             Text("Додайте статті до збережених")
@@ -37,4 +42,3 @@ struct SavedArticlesView: View {
         .padding()
     }
 }
-

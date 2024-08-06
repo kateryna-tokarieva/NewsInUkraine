@@ -38,7 +38,7 @@ struct ArticlesDataService {
         return URLSession.shared.dataTaskPublisher(for: url)
             .map { $0.data }
             .handleEvents(receiveOutput: { data in
-                print("Received data: \(String(data: data, encoding: .utf8) ?? "No data")")
+                print("Received data")
             })
             .decode(type: ArticlesData.self, decoder: JSONDecoder())
             .handleEvents(receiveCompletion: { completion in

@@ -2,7 +2,7 @@
 //  NewsInUkraineApp.swift
 //  NewsInUkraine
 //
-//  Created by Екатерина Токарева on 05.08.2024.
+//  Created by Катерина Токарева on 05.08.2024.
 //
 
 import SwiftUI
@@ -13,7 +13,7 @@ struct NewsInUkraineApp: App {
 
     var body: some Scene {
         WindowGroup {
-            NewsFeed(context: persistenceController.container.viewContext)
+            NewsFeedView(context: persistenceController.container.viewContext)
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }

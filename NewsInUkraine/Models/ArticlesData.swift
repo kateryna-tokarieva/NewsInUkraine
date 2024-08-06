@@ -2,7 +2,7 @@
 //  ArticlesData.swift
 //  NewsInUkraine
 //
-//  Created by Екатерина Токарева on 05.08.2024.
+//  Created by Катерина Токарева on 05.08.2024.
 //
 
 import Foundation
@@ -23,6 +23,17 @@ struct Article: Codable, Hashable {
     let url: String
     let urlToImage: String?
     let publishedAt: String
+    var isSaved: Bool = false
+    
+    enum CodingKeys: String, CodingKey {
+        case source
+        case author
+        case title
+        case description
+        case url
+        case urlToImage
+        case publishedAt
+    }
 }
 
 // MARK: - Source
