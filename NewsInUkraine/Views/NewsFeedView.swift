@@ -13,6 +13,7 @@ struct NewsFeedView: View {
     @StateObject private var viewModel: NewsFeedViewModel
     @State private var filter = ""
     @State private var showingSavedArticlesSheet = false
+    @State private var isLoading = false
     
     init(context: NSManagedObjectContext) {
         _viewModel = StateObject(wrappedValue: NewsFeedViewModel(context: context))
@@ -23,18 +24,18 @@ struct NewsFeedView: View {
         NavigationView {
             VStack {
                 header
-                Spacer()
                 content
-                Spacer()
             }
+        }
+        .onAppear {
+            loadArticles()
         }
     }
     
     var header: some View {
         HStack {
             TextField("Пошук", text: $filter, onCommit: {
-                viewModel.filter = filter
-                viewModel.fetchArticles()
+                debounceSearch()
             })
             .padding()
             .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -45,7 +46,7 @@ struct NewsFeedView: View {
             })
             .padding()
             .sheet(isPresented: $showingSavedArticlesSheet, onDismiss: {
-                viewModel.fetchArticles()
+                viewModel.fetchArticles() { _ in }
             }) {
                 SavedArticlesView(viewModel: SavedArticleViewModel(context: viewContext))
                     .environment(\.managedObjectContext, viewContext)
@@ -55,7 +56,12 @@ struct NewsFeedView: View {
     
     var content: some View {
         Group {
-            if viewModel.articles.isEmpty {
+            if isLoading {
+                Spacer()
+                ProgressView("Завантаження новин...")
+                    .padding()
+                Spacer()
+            } else if viewModel.articles.isEmpty {
                 emptyState
             } else {
                 articles
@@ -71,11 +77,31 @@ struct NewsFeedView: View {
     
     var emptyState: some View {
         VStack {
-            ProgressView()
-            Text("Завантаження новин...")
+            Spacer()
+            Image(systemName: "exclamationmark.triangle")
                 .foregroundColor(.secondary)
+                .imageScale(.large)
+            Text("Новини не знайдено")
+                .foregroundColor(.secondary)
+            Spacer()
         }
         .padding()
+    }
+    
+    private func loadArticles() {
+        isLoading = true
+        viewModel.fetchArticles { result in
+            DispatchQueue.main.async {
+                self.isLoading = false
+            }
+        }
+    }
+    
+    private func debounceSearch() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            viewModel.filter = filter
+            viewModel.fetchArticles() { _ in }
+        }
     }
 }
 

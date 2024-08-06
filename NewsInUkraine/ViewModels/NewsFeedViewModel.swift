@@ -20,19 +20,24 @@ class NewsFeedViewModel: ObservableObject {
 
     init(context: NSManagedObjectContext) {
         self.viewContext = context
-        fetchArticles()
+        fetchArticles() { _ in }
     }
 
-    func fetchArticles() {
+    func fetchArticles(completion: @escaping (Result<[Article], Error>) -> Void) {
         service.fetchArticles(withFilter: filter)
             .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { completion in
-                if case let .failure(error) = completion {
+            .sink(receiveCompletion: { completionState in
+                switch completionState {
+                case .failure(let error):
                     print("Error fetching articles: \(error.localizedDescription)")
+                    completion(.failure(error))
+                case .finished:
+                    break
                 }
             }, receiveValue: { [weak self] articlesData in
                 print("Fetched Articles")
                 self?.articles = articlesData.articles
+                completion(.success(articlesData.articles))
             })
             .store(in: &cancellables)
     }
