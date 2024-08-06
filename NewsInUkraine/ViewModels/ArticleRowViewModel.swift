@@ -19,56 +19,71 @@ class ArticleRowViewModel: ObservableObject {
     }
 
     private func isArticleSaved() -> Bool {
-            let fetchRequest: NSFetchRequest<SavedArticle> = SavedArticle.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "url == %@", article.url)
+        var isSaved = false
+        let fetchRequest: NSFetchRequest<SavedArticle> = SavedArticle.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "url == %@", article.url)
 
+        DispatchQueue.global().async {
             do {
-                let results = try context.fetch(fetchRequest)
-                let isSaved = !results.isEmpty
-                print("Checking if article \(article.title) is saved: \(isSaved)")
-                return isSaved
+                let results = try self.context.fetch(fetchRequest)
+                isSaved = !results.isEmpty
+                DispatchQueue.main.async {
+                    self.article.isSaved = isSaved
+                }
             } catch {
                 print("Failed to check saved status: \(error.localizedDescription)")
-                return false
             }
         }
-    
-    func saveArticle() {
-        let savedArticle = SavedArticle(context: context)
-        savedArticle.title = article.title
-        savedArticle.descriptionText = article.description
-        savedArticle.url = article.url
-        savedArticle.urlToImage = article.urlToImage
-        savedArticle.publishedAt = article.publishedAt
-        savedArticle.isSaved = true
 
-        do {
-            try context.save()
-            article.isSaved = true
-                        print("Article \(article.title) saved successfully")
-                    } catch {
-                        print("Failed to save article: \(error.localizedDescription)")
-                    }
+        return isSaved
+    }
+
+    func saveArticle() {
+        guard !article.isSaved else { return }
+
+        DispatchQueue.global().async {
+            let savedArticle = SavedArticle(context: self.context)
+            savedArticle.title = self.article.title
+            savedArticle.descriptionText = self.article.description
+            savedArticle.url = self.article.url
+            savedArticle.urlToImage = self.article.urlToImage
+            savedArticle.publishedAt = self.article.publishedAt
+            savedArticle.isSaved = true
+
+            do {
+                try self.context.save()
+                DispatchQueue.main.async {
+                    self.article.isSaved = true
+                    NotificationCenter.default.post(name: .articleSaved, object: nil)
+                    print("Article \(self.article.title) saved successfully")
+                }
+            } catch {
+                print("Failed to save article: \(error.localizedDescription)")
+            }
+        }
     }
 
     func deleteArticle() {
-            let fetchRequest: NSFetchRequest<SavedArticle> = SavedArticle.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "url == %@", article.url)
+        let fetchRequest: NSFetchRequest<SavedArticle> = SavedArticle.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "url == %@", article.url)
 
+        DispatchQueue.global().async {
             do {
-                let results = try context.fetch(fetchRequest)
+                let results = try self.context.fetch(fetchRequest)
                 for result in results {
-                    context.delete(result)
+                    self.context.delete(result)
                 }
-                try context.save()
-                article.isSaved = false
-                print("Article \(article.title) deleted successfully")
-                NotificationCenter.default.post(name: .articleDeleted, object: nil)
+                try self.context.save()
+                DispatchQueue.main.async {
+                    self.article.isSaved = false
+                    NotificationCenter.default.post(name: .articleDeleted, object: nil)
+                    print("Article \(self.article.title) deleted successfully")
+                }
             } catch {
                 print("Failed to delete article: \(error.localizedDescription)")
             }
         }
-
+    }
 }
 
 extension Notification.Name {
