@@ -12,36 +12,16 @@ class ArticleRowViewModel: ObservableObject {
     @Published var article: Article
     
     private let context: NSManagedObjectContext
-
+    
     init(article: Article, context: NSManagedObjectContext) {
         self.article = article
         self.context = context
         self.article.isSaved = isArticleSaved()
     }
-
-    private func isArticleSaved() -> Bool {
-        var isSaved = false
-        let fetchRequest: NSFetchRequest<SavedArticle> = SavedArticle.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "url == %@", article.url)
-
-        DispatchQueue.global().async {
-            do {
-                let results = try self.context.fetch(fetchRequest)
-                isSaved = !results.isEmpty
-                DispatchQueue.main.async {
-                    self.article.isSaved = isSaved
-                }
-            } catch {
-                print("Failed to check saved status: \(error.localizedDescription)")
-            }
-        }
-
-        return isSaved
-    }
-
+    
     func saveArticle() {
         guard !article.isSaved else { return }
-
+        
         DispatchQueue.global().async {
             let savedArticle = SavedArticle(context: self.context)
             savedArticle.title = self.article.title
@@ -50,7 +30,7 @@ class ArticleRowViewModel: ObservableObject {
             savedArticle.urlToImage = self.article.urlToImage
             savedArticle.publishedAt = self.article.publishedAt
             savedArticle.isSaved = true
-
+            
             do {
                 try self.context.save()
                 DispatchQueue.main.async {
@@ -63,11 +43,11 @@ class ArticleRowViewModel: ObservableObject {
             }
         }
     }
-
+    
     func deleteArticle() {
         let fetchRequest: NSFetchRequest<SavedArticle> = SavedArticle.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "url == %@", article.url)
-
+        
         DispatchQueue.global().async {
             do {
                 let results = try self.context.fetch(fetchRequest)
@@ -84,6 +64,26 @@ class ArticleRowViewModel: ObservableObject {
                 print("Failed to delete article: \(error.localizedDescription)")
             }
         }
+    }
+    
+    private func isArticleSaved() -> Bool {
+        var isSaved = false
+        let fetchRequest: NSFetchRequest<SavedArticle> = SavedArticle.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "url == %@", article.url)
+        
+        DispatchQueue.global().async {
+            do {
+                let results = try self.context.fetch(fetchRequest)
+                isSaved = !results.isEmpty
+                DispatchQueue.main.async {
+                    self.article.isSaved = isSaved
+                }
+            } catch {
+                print("Failed to check saved status: \(error.localizedDescription)")
+            }
+        }
+        
+        return isSaved
     }
 }
 

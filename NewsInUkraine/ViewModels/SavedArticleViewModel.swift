@@ -10,18 +10,19 @@ import CoreData
 
 class SavedArticleViewModel: ObservableObject {
     @Published var articles: [Article] = []
+    
     private let context: NSManagedObjectContext
-
+    
     init(context: NSManagedObjectContext) {
         self.context = context
         fetchSavedArticles()
-
+        
         NotificationCenter.default.addObserver(self, selector: #selector(articleDeleted(_:)), name: .articleDeleted, object: nil)
     }
-
+    
     func fetchSavedArticles() {
         let fetchRequest: NSFetchRequest<SavedArticle> = SavedArticle.fetchRequest()
-
+        
         do {
             let savedArticles = try context.fetch(fetchRequest)
             articles = savedArticles.map { savedArticle in
@@ -40,9 +41,9 @@ class SavedArticleViewModel: ObservableObject {
             print("Failed to fetch saved articles: \(error.localizedDescription)")
         }
     }
-
+    
     @objc func articleDeleted(_ notification: Notification) {
-            print("Article deleted notification received")
-            fetchSavedArticles()
-        }
+        print("Article deleted notification received")
+        fetchSavedArticles()
+    }
 }

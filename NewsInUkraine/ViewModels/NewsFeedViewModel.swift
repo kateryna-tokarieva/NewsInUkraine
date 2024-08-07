@@ -12,17 +12,17 @@ import CoreData
 class NewsFeedViewModel: ObservableObject {
     @Published var data: ArticlesData?
     @Published var articles: [Article] = []
-
+    
     var filter: String?
     private var service = ArticlesDataService.shared
     private var cancellables = Set<AnyCancellable>()
     private var context: NSManagedObjectContext
-
+    
     init(context: NSManagedObjectContext) {
         self.context = context
         fetchArticles() { _ in }
     }
-
+    
     func fetchArticles(completion: @escaping (Result<[Article], Error>) -> Void) {
         service.fetchArticles(withFilter: filter)
             .receive(on: DispatchQueue.main)

@@ -32,7 +32,7 @@ struct NewsFeedView: View {
         }
     }
     
-    var header: some View {
+    private var header: some View {
         HStack {
             TextField("Пошук", text: $filter, onCommit: {
                 debounceSearch()
@@ -54,7 +54,7 @@ struct NewsFeedView: View {
         }
     }
     
-    var content: some View {
+    private var content: some View {
         Group {
             if isLoading {
                 Spacer()
@@ -69,13 +69,13 @@ struct NewsFeedView: View {
         }
     }
     
-    var articles: some View {
+    private var articles: some View {
         List(viewModel.articles, id: \.self) { article in
             ArticleRowView(viewModel: ArticleRowViewModel(article: article, context: viewContext))
         }
     }
     
-    var emptyState: some View {
+    private var emptyState: some View {
         VStack {
             Spacer()
             Image(systemName: "exclamationmark.triangle")
