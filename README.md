@@ -17,6 +17,7 @@
 The app requires an API key to fetch news articles. Update the API.swift file with your API key:
 
 // API.swift
+
 struct API {
     static let key = "YOUR_API_KEY_HERE"
 }
