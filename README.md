@@ -25,11 +25,11 @@
    git clone https://github.com/your-username/NewsInUkraine.git
    cd NewsInUkraine
    
-2. **Open the Project**
+3. **Open the Project**
    
    Open NewsInUkraine.xcodeproj in Xcode.
 
-3. **Build and Run**
+4. **Build and Run**
    
     Select a simulator or connected device, then click the run button in Xcode.
 
