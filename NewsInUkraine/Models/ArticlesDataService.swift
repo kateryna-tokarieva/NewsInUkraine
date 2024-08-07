@@ -1,5 +1,5 @@
 //
-//  ArticlesNetworkManager.swift
+//  ArticlesDataService.swift
 //  NewsInUkraine
 //
 //  Created by Катерина Токарева on 05.08.2024.

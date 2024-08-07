@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  NewsFeedView.swift
 //  NewsInUkraine
 //
 //  Created by Катерина Токарева on 05.08.2024.

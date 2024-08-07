@@ -1,5 +1,5 @@
 //
-//  HomeViewModel.swift
+//  NewsFeedViewModel.swift
 //  NewsInUkraine
 //
 //  Created by Катерина Токарева on 05.08.2024.
@@ -16,10 +16,10 @@ class NewsFeedViewModel: ObservableObject {
     var filter: String?
     private var service = ArticlesDataService.shared
     private var cancellables = Set<AnyCancellable>()
-    private var viewContext: NSManagedObjectContext
+    private var context: NSManagedObjectContext
 
     init(context: NSManagedObjectContext) {
-        self.viewContext = context
+        self.context = context
         fetchArticles() { _ in }
     }
 

@@ -10,6 +10,7 @@ import CoreData
 
 class ArticleRowViewModel: ObservableObject {
     @Published var article: Article
+    
     private let context: NSManagedObjectContext
 
     init(article: Article, context: NSManagedObjectContext) {
