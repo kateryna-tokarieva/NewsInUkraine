@@ -22,7 +22,7 @@
 
 1. **Clone the Repository**
 
-   git clone https://github.com/your-username/NewsInUkraine.git
+   git clone https://github.com/kateryna-tokarieva/NewsInUkraine.git
    cd NewsInUkraine
    
 3. **Open the Project**
