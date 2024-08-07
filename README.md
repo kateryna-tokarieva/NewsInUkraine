@@ -11,6 +11,28 @@
 - **Core Data Integration:** Save and retrieve articles using Core Data.
 - **SwiftUI Interface:** Built with a modern SwiftUI interface.
 
+## Installation
+
+### Prerequisites
+
+- **Xcode 15 or later**: Ensure you have the latest version of Xcode installed on your Mac.
+- **iOS 17.2 or later**: This app is designed to run on iOS 14.0 or later.
+
+### Setup
+
+1. **Clone the Repository**
+
+   git clone https://github.com/your-username/NewsInUkraine.git
+   cd NewsInUkraine
+   
+2. **Open the Project**
+   
+   Open NewsInUkraine.xcodeproj in Xcode.
+
+3. **Build and Run**
+   
+    Select a simulator or connected device, then click the run button in Xcode.
+
 ## Configuration
 
 **API Key**
